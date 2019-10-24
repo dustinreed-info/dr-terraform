@@ -2,7 +2,9 @@
 
 ## Requirements
 Amazon Linux2
+
 AWS Account
+
 An Ec2 SSH Key Pair with the public key located on the terraform host in the
 ~/.ssh/ directory.  You can change the key name and location in vars.tf.
 
