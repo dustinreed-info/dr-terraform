@@ -9,7 +9,7 @@ resource "aws_key_pair" "auth" {
 }
 
 data "template_file" "dr-tf-ec2-cfg" {
-  template = "${file("/config.tpl")}"
+  template = "${file("./config.tpl")}"
 }
 
 resource "aws_vpc" "dr-tf-vpc" {
