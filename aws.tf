@@ -162,6 +162,19 @@ resource "aws_launch_template" "dr-tf-asg-ltemplate" {
   }
 }
 
+resource "aws_autoscaling_policy" "dr-tf-asg-pol" {
+  name                   = "dr-tf-asg-pol"
+  autoscaling_group_name = "${aws_autoscaling_group.dr-tf-asg.name}"
+    policy_type            = "TargetTrackingScaling"
+    target_tracking_configuration {
+      predefined_metric_specification {
+        predefined_metric_type = "ASGAverageCPUUtilization"
+      }
+
+      target_value = 40.0
+    }
+  }
+
 resource "aws_autoscaling_group" "dr-tf-asg" {
   name                      = "dr-tf-asg"
   min_size                  = 2
