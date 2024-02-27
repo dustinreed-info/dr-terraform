@@ -39,7 +39,7 @@ resource "aws_nat_gateway" "dr-tf-nat" {
 }
 
 resource "aws_eip" "dr-tf-nat-ip" {
-  vpc = true
+  domain = "vpc"
   tags = {
     Name  = "dr-tf-nat-ip"
     Group = "dr-tf-info"
@@ -146,7 +146,7 @@ resource "aws_lb_target_group" "dr-tf-alb-tg" {
 
 resource "aws_autoscaling_attachment" "dr-tf-asg-attachment" {
   autoscaling_group_name = aws_autoscaling_group.dr-tf-asg.id
-  alb_target_group_arn   = aws_lb_target_group.dr-tf-alb-tg.arn
+  lb_target_group_arn   = aws_lb_target_group.dr-tf-alb-tg.arn
 }
 
 resource "aws_launch_template" "dr-tf-asg-ltemplate" {
@@ -184,17 +184,17 @@ resource "aws_autoscaling_group" "dr-tf-asg" {
   desired_capacity          = 2
   force_delete              = true
   vpc_zone_identifier       = [aws_subnet.dr-tf-sub-dmz-a.id, aws_subnet.dr-tf-sub-dmz-b.id, aws_subnet.dr-tf-sub-dmz-c.id]
-  tags = [{
-    key                 = "Name"
-    value               = "dr-tf-asg"
+  tag {
+    key = "Name" 
+    value = "dr-tf-asg"
     propagate_at_launch = true
-    },
-    {
-      key                 = "Group"
-      value               = "dr-tf-info"
-      propagate_at_launch = true
-    }
-  ]
+  }
+  tag {
+    key = "Group"
+    value = "dr-tf-info"
+    propagate_at_launch = true
+  }
+
   launch_template {
     id      = aws_launch_template.dr-tf-asg-ltemplate.id
     version = "$Latest"
