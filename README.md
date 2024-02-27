@@ -56,3 +56,15 @@ You can also specify the public key name and location when running terraform app
 ```
 terraform apply -var="key_name=dr-tf-key" var="public_key_path=~/.ssh/dr-tf-key.pub"
 ```
+
+## Validate Deployment
+You can output the websites URL if you would like to check it out.
+```
+terraform output aws_alb_url
+```
+
+## Remove Deployment
+
+```
+terraform destroy
+```
